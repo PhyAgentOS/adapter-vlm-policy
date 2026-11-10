@@ -15,7 +15,6 @@ jobs:
       matrix:
         python: ["3.11", "3.12"]
     env:
-      UV_CACHE_DIR: ${{ runner.temp }}/uv-cache
       UV_PYTHON: ${{ matrix.python }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
