@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "adapter-vlm-policy"
+version = "0.1.2"
+description = "Agent-invoked multimodal inference with isolated, versioned task context"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "LICENSES/*.txt"]
+authors = [{ name = "PhyAgentOS Contributors" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1", "pydantic>=2.9,<3", "jsonschema>=4.23,<5", "Pillow>=13,<14", "PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "pytest-asyncio>=0.24,<2", "mujoco>=3.2,<4", "numpy>=1.26"]
+forge = [
+    "forge-tool==1.0.0; python_version >= '3.12'",
+    "dora-rs==0.4.1; python_version >= '3.12'",
+    "pyarrow>=14,<24; python_version >= '3.12'",
+]
+
+[project.scripts]
+adapter-vlm-policy = "adapter_vlm_policy.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/PhyAgentOS/adapter-vlm-policy"
+Repository = "https://github.com/PhyAgentOS/adapter-vlm-policy"
+Issues = "https://github.com/PhyAgentOS/adapter-vlm-policy/issues"
+
+[dependency-groups]
+dev = ["ruff>=0.14,<1", "build>=1.2,<2", "pip-audit>=2.10,<3", "detect-secrets==1.5.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/adapter_vlm_policy"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src", "/tests", "/scripts", "/examples", "/docs", "/.github", "/LICENSES",
+    "/README.md", "/README_zh.md", "/DEVELOPING.md", "/DEVELOPING_zh.md",
+    "/LICENSE", "/NOTICE", "/THIRD_PARTY_NOTICES.md", "/CONTRIBUTING.md",
+    "/SECURITY.md", "/OPEN_SOURCE_AUDIT.md", "/CHANGELOG.md", "/config.example.yaml",
+    "/pyproject.toml", "/uv.lock", "/.gitignore", "/.python-version", "/.secrets.baseline",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["src/adapter_vlm_policy/_vendor"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+ignore = ["B008"] # FastAPI Depends is an intentional dependency descriptor.

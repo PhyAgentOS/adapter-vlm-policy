@@ -1,0 +1,20 @@
+nodes:
+  - id: gateway
+    path: ${PAOS_SKILL_ROOT}/nodes/gateway.sh
+    inputs:
+      tick: dora/timer/millis/20
+      vlm_in: vlm_control/tool_out
+      sim_in: simulator_control/tool_out
+    outputs: [tool_response, vlm_out, sim_out]
+  - id: vlm_control
+    path: ${PAOS_SKILL_ROOT}/nodes/vlm.sh
+    inputs:
+      tick: dora/timer/millis/20
+      tool_in: gateway/vlm_out
+    outputs: [tool_out]
+  - id: simulator_control
+    path: ${PAOS_SKILL_ROOT}/nodes/simulation.sh
+    inputs:
+      tick: dora/timer/millis/20
+      tool_in: gateway/sim_out
+    outputs: [tool_out]

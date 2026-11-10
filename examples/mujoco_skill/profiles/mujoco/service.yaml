@@ -1,0 +1,16 @@
+data_dir: ${ADAPTER_VLM_WORKSPACE}/inference
+allowed_file_roots: ["${ADAPTER_VLM_WORKSPACE}/frames"]
+model_routes:
+  default:
+    provider_file: ~/.llm_config
+    api_prefix: v1
+    model: ${VLM_MODEL}
+    reasoning_effort: ${VLM_REASONING_EFFORT}
+    vision: true
+    native_json_schema: false
+    context_tokens: 64000
+    max_images: 8
+default_route: default
+limits:
+  max_deadline_ms: 180000
+  max_output_tokens: 8192

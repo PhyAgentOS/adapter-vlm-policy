@@ -1,0 +1,133 @@
+host: 127.0.0.1
+port: 19122
+joint_order: []
+image_input_ids: []
+readiness:
+  require_proprio_state: false
+  require_images: false
+tools:
+  enabled: true
+  lease_ttl_ms: 30000
+  invoke_timeout_ms: 180000
+  request_input_id: tool_request
+  response_output_id: tool_response
+  specs:
+  - tool_id: vlm.capabilities
+    implementation_id: adapter-vlm-demo
+    endpoint_id: reasoning.vlm
+    operation: capabilities
+    semantics: query
+    description: Read generic inference capabilities.
+    input_schema:
+      type: object
+      required: []
+      properties: {}
+      additionalProperties: true
+    output_schema:
+      type: object
+      additionalProperties: true
+    readiness: []
+  - tool_id: vlm.infer
+    implementation_id: adapter-vlm-demo
+    endpoint_id: reasoning.vlm
+    operation: infer
+    semantics: action
+    description: Run generic text/image inference; supply explicit messages and optional
+      task context.
+    input_schema:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+        request_id:
+          type: string
+        context:
+          type: object
+        response_format:
+          type: object
+        limits:
+          type: object
+      additionalProperties: true
+    output_schema:
+      type: object
+      additionalProperties: true
+    readiness: []
+  - tool_id: sim.observe
+    implementation_id: adapter-vlm-demo
+    endpoint_id: sim.tabletop
+    operation: observe
+    semantics: query
+    description: Capture a current simulation image. No evaluator truth is returned.
+    input_schema:
+      type: object
+      required: []
+      properties: {}
+      additionalProperties: true
+    output_schema:
+      type: object
+      additionalProperties: true
+    readiness: []
+  - tool_id: sim.prepare
+    implementation_id: adapter-vlm-demo
+    endpoint_id: sim.tabletop
+    operation: prepare
+    semantics: action
+    description: Backproject model-selected pixels from a matching observation.
+    input_schema:
+      type: object
+      required:
+      - observation_id
+      - grasp_point_uv_px
+      - destination_point_uv_px
+      properties:
+        observation_id:
+          type: string
+        grasp_point_uv_px: &id001
+          type: array
+          items:
+            type: number
+          minItems: 2
+          maxItems: 2
+        destination_point_uv_px: *id001
+      additionalProperties: true
+    output_schema:
+      type: object
+      additionalProperties: true
+    readiness: []
+  - tool_id: sim.execute
+    implementation_id: adapter-vlm-demo
+    endpoint_id: sim.tabletop
+    operation: execute
+    semantics: action
+    description: Execute a validated list of simulation primitives.
+    input_schema:
+      type: object
+      required:
+      - primitives
+      properties:
+        primitives:
+          type: array
+          items:
+            enum:
+            - pregrasp
+            - descend
+            - close_gripper
+            - test_lift
+            - transfer
+            - release
+            - retreat
+          minItems: 1
+      additionalProperties: true
+    output_schema:
+      type: object
+      additionalProperties: true
+    readiness: []
+  providers:
+  - endpoint_id: reasoning.vlm
+    input_id: vlm_in
+    output_id: vlm_out
+  - endpoint_id: sim.tabletop
+    input_id: sim_in
+    output_id: sim_out

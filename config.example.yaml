@@ -1,0 +1,31 @@
+data_dir: .runtime
+allowed_file_roots:
+  - ./examples
+  - ./reports
+model_routes:
+  default:
+    base_url: ${VLM_API_BASE}
+    api_key_env: VLM_API_KEY
+    model: ${VLM_MODEL}
+    # Optional; inherited from provider_file model_effort if unset.
+    reasoning_effort: ${VLM_REASONING_EFFORT}
+    vision: true
+    native_json_schema: false
+    context_tokens: 32000
+    max_images: 8
+default_route: default
+limits:
+  max_concurrency: 2
+  max_pending: 8
+  max_deadline_ms: 180000
+  max_output_tokens: 4096
+  context_ttl_s: 86400
+# Optional authenticated namespaces, required when listening beyond loopback:
+# clients:
+#   - namespace: paos
+#     token_env: VLM_SERVICE_TOKEN
+# Optional import of an existing PAOS provider instead of duplicating credentials:
+# paos_config: ~/.PhyAgentOS/config.json
+# paos_provider: custom
+# paos_model: <configured vision model>
+# default_route: paos

@@ -1,0 +1,18 @@
+manifest_version: 2
+name: vlm-mujoco-demo
+version: "0.1.2"
+description: Agent-invoked adapter-vlm-policy with Gateway and a separate MuJoCo tabletop executor.
+skill_document: SKILL.md
+gateway_url: http://127.0.0.1:19122
+required_tools: [vlm.infer, vlm.capabilities, sim.observe, sim.prepare, sim.execute]
+profiles:
+  mujoco:
+    dataflow: profiles/mujoco/dataflow.yaml
+    required_binaries: []
+    required_assets: [assets/scene.xml, nodes/gateway.sh, nodes/vlm.sh, nodes/simulation.sh]
+    required_environment: [ADAPTER_VLM_PYTHON, ADAPTER_VLM_WORKSPACE, GATEWAY_BINARY]
+    environment:
+      MUJOCO_GL: egl
+artifacts:
+  resolver: local
+  nodes: {}
