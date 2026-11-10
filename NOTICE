@@ -1,0 +1,6 @@
+adapter-vlm-policy
+Copyright 2026 PhyAgentOS Contributors
+
+Original project code, configuration, documentation and the procedural MuJoCo
+example scene are licensed under the Apache License, Version 2.0.
+Third-party dependencies retain the licenses listed in THIRD_PARTY_NOTICES.md.
