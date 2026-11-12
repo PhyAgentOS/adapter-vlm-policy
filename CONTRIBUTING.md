@@ -7,7 +7,7 @@ uv sync --frozen --all-extras --group dev
 uv run pytest -q
 uv run ruff check src tests scripts examples
 uv run python scripts/check_publication.py
-uv run adapter-vlm-policy --help
+uv run operator-vlm-policy --help
 ```
 
 Keep changes focused. Add tests for changed behavior, particularly context

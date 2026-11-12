@@ -97,7 +97,7 @@ def check(root: Path = ROOT) -> list[str]:
             findings.append(f"Unexpected binary source file: {name}")
             continue
         findings.extend(f"{label}: {name}" for label in inspect_text(text))
-    provenance = root / "src/adapter_vlm_policy/_vendor/PROVENANCE.json"
+    provenance = root / "src/operator_vlm_policy/_vendor/PROVENANCE.json"
     if provenance.is_file():
         for entry in json.loads(provenance.read_text())["files"]:
             path = provenance.parent / entry["path"]

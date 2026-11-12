@@ -1,5 +1,5 @@
-data_dir: ${ADAPTER_VLM_WORKSPACE}/inference
-allowed_file_roots: ["${ADAPTER_VLM_WORKSPACE}/frames"]
+data_dir: ${OPERATOR_VLM_WORKSPACE}/inference
+allowed_file_roots: ["${OPERATOR_VLM_WORKSPACE}/frames"]
 model_routes:
   default:
     provider_file: ~/.llm_config

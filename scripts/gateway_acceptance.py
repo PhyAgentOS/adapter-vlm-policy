@@ -8,8 +8,8 @@ from pathlib import Path
 
 import httpx
 
-from adapter_vlm_policy.benchmark import GROUND, REVIEW
-from adapter_vlm_policy.mujoco_scene import PRIMITIVES
+from operator_vlm_policy.benchmark import GROUND, REVIEW
+from operator_vlm_policy.mujoco_scene import PRIMITIVES
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--output", required=True)
@@ -95,7 +95,7 @@ def action(tool, arguments):
 
 
 cap = query("reasoning.vlm", "capabilities")
-assert cap["component"] == "adapter-vlm-policy"
+assert cap["component"] == "operator-vlm-policy"
 effective_route = cap["model_routes"]["default"]
 if args.expected_model is not None:
     assert effective_route["model"] == args.expected_model, effective_route

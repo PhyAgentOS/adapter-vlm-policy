@@ -1,6 +1,10 @@
 [English](README.md) | 简体中文
 
-# adapter-vlm-policy
+# operator-vlm-policy
+
+项目已更名为 `operator-vlm-policy`。已有部署需要改用 `operator-vlm-policy`
+命令、`operator_vlm_policy` Python 包，以及 `OPERATOR_VLM_*` /
+`OPERATOR_PAOS_CONFIG` 环境变量。
 
 由 Agent 按需调用的通用 LLM/VLM 推理服务。输入文本、图片和输出格式，返回文本或经过 Schema 校验的 JSON。可选 Task 上下文在识别与后续复核之间保存明确选取的历史和不可变图片证据。
 
@@ -11,7 +15,7 @@
 | 项目 | 实现 |
 |---|---|
 | 默认独立模式 | 一个 HTTP 推理服务；零个 Dora Node 或 Forge Endpoint |
-| 生产 Dora Node | 一个可选 `forge-bridge --profile vlm` provider；[实现](src/adapter_vlm_policy/forge_bridge.py)，由同一 CLI 启动 |
+| 生产 Dora Node | 一个可选 `forge-bridge --profile vlm` provider；[实现](src/operator_vlm_policy/forge_bridge.py)，由同一 CLI 启动 |
 | 辅助程序 | 示例仿真 provider、离线基准、请求客户端和 Skill 打包器；不计入生产 Node 数量 |
 | Endpoint | 可选 VLM bridge 提供 `reasoning.vlm` |
 | Operation | 两个：`capabilities` Query、`infer` Action；描述符每个 operation 并发为四，实际推理另受服务队列/并发配置约束 |
@@ -29,7 +33,7 @@
 | `sim.prepare` | `sim.tabletop / prepare`（Action） | 示例仿真 bridge |
 | `sim.execute` | `sim.tabletop / execute`（Action） | 示例仿真 bridge |
 
-这些 Tool ID 是示例绑定，不是新增 Endpoint。[请求类型](src/adapter_vlm_policy/models.py) 使用 `vlm.infer.request.v1`，结果使用 `vlm.infer.result.v1`。Forge wire 兼容性遵循固定版本公共 SDK 的 `TOOL_ENDPOINT_PROTOCOL`。本仓库不分发预构建 Node 或 Gateway 二进制。
+这些 Tool ID 是示例绑定，不是新增 Endpoint。[请求类型](src/operator_vlm_policy/models.py) 使用 `vlm.infer.request.v1`，结果使用 `vlm.infer.result.v1`。Forge wire 兼容性遵循固定版本公共 SDK 的 `TOOL_ENDPOINT_PROTOCOL`。本仓库不分发预构建 Node 或 Gateway 二进制。
 
 ## 安装与启动
 
@@ -42,7 +46,7 @@ cp config.example.yaml config.local.yaml
 export VLM_API_BASE=https://your-provider.example/v1
 export VLM_MODEL=your-vision-capable-model
 # VLM_API_KEY 通过本机环境或凭据管理器提供。
-.venv/bin/adapter-vlm-policy serve --config config.local.yaml
+.venv/bin/operator-vlm-policy serve --config config.local.yaml
 ```
 
 也可在模型路由配置 `provider_file: ~/.llm_config`。服务将文件中的 `base_url`、`api_key`、`model_name`、`model_effort` 作为简单赋值数据读取，不执行该文件。模型和 effort 的优先级为显式路由设置、`VLM_MODEL` / `VLM_REASONING_EFFORT`、文件值；未设置的环境变量占位符会回退到文件。文件也支持标准别名 `model`、`reasoning_effort`。effort 按 `reasoning_effort` 原值传给后端，不会因后端不支持而悄悄删除或换模型。capabilities、推理快照及成功结果 provenance 显示实际 effort。若文件保存站点根地址，可配置 `api_prefix: v1`。已有 PAOS JSON 配置可通过 `paos_config` 导入；密钥不进入报告或 capabilities。
@@ -77,7 +81,7 @@ Agent 侧工具保持 vlm.infer 和 vlm.capabilities。状态、取消及上下�
 将请求保存为 request.json 后执行：
 
 ```bash
-.venv/bin/adapter-vlm-policy infer request.json --url http://127.0.0.1:19120
+.venv/bin/operator-vlm-policy infer request.json --url http://127.0.0.1:19120
 ```
 
 图片内容块：
@@ -121,8 +125,8 @@ SQLite 记录和不可变媒体支持重启恢复；重启时在途请求标记 
 启动前配置：
 
 ```bash
-export ADAPTER_VLM_PYTHON=/absolute/project/.venv/bin/python
-export ADAPTER_VLM_WORKSPACE=/absolute/local/demo-output
+export OPERATOR_VLM_PYTHON=/absolute/project/.venv/bin/python
+export OPERATOR_VLM_WORKSPACE=/absolute/local/demo-output
 export GATEWAY_BINARY=/absolute/path/to/compatible/gateway
 # 此 profile 从 ~/.llm_config 读取 base_url、api_key、model_name 和 model_effort。
 paos skill install dist/vlm-mujoco-demo-0.1.2.tar.gz --local --yes
@@ -133,13 +137,13 @@ paos skill stop vlm-mujoco-demo
 
 示例启动脚本会清空继承的 VLM 模型/effort 环境覆盖值，防止共享 Dora daemon 的旧值替换文件设置。如需主动覆盖示例模型，请修改 service YAML 中显式 model/reasoning_effort 路由设置。独立服务仍遵循上文的优先级。
 
-若已有机器人 Runtime 在运行，使用独立 PAOS 实例。scripts/isolated_paos.py 使用官方配置路径机制：设置 ADAPTER_PAOS_CONFIG 为另一份配置文件，再用 PAOS 解释器运行相同 skill 命令。不会停止共享 Dora coordinator 或其他 flow。
+若已有机器人 Runtime 在运行，使用独立 PAOS 实例。scripts/isolated_paos.py 使用官方配置路径机制：设置 OPERATOR_PAOS_CONFIG 为另一份配置文件，再用 PAOS 解释器运行相同 skill 命令。不会停止共享 Dora coordinator 或其他 flow。
 
 ## 验证
 
 ```bash
 .venv/bin/python -m pytest -q --durations=10
-MUJOCO_GL=egl .venv/bin/python -m adapter_vlm_policy.benchmark \
+MUJOCO_GL=egl .venv/bin/python -m operator_vlm_policy.benchmark \
   --config config.local.yaml --output reports/my-run
 # 实际通过 PAOS 启动 Skill 后：
 .venv/bin/python scripts/gateway_acceptance.py --output reports/my-gateway-run

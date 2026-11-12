@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "adapter-vlm-policy"
+name = "operator-vlm-policy"
 version = "0.1.2"
 description = "Agent-invoked multimodal inference with isolated, versioned task context"
 readme = "README.md"
@@ -28,18 +28,18 @@ forge = [
 ]
 
 [project.scripts]
-adapter-vlm-policy = "adapter_vlm_policy.cli:main"
+operator-vlm-policy = "operator_vlm_policy.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/PhyAgentOS/adapter-vlm-policy"
-Repository = "https://github.com/PhyAgentOS/adapter-vlm-policy"
-Issues = "https://github.com/PhyAgentOS/adapter-vlm-policy/issues"
+Homepage = "https://github.com/PhyAgentOS/operator-vlm-policy"
+Repository = "https://github.com/PhyAgentOS/operator-vlm-policy"
+Issues = "https://github.com/PhyAgentOS/operator-vlm-policy/issues"
 
 [dependency-groups]
-dev = ["ruff>=0.14,<1", "build>=1.2,<2", "pip-audit>=2.10,<3", "detect-secrets==1.5.0"]
+dev = ["ruff>=0.14,<1", "build>=1.2,<2", "detect-secrets==1.5.0"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/adapter_vlm_policy"]
+packages = ["src/operator_vlm_policy"]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -58,7 +58,7 @@ testpaths = ["tests"]
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-extend-exclude = ["src/adapter_vlm_policy/_vendor"]
+extend-exclude = ["src/operator_vlm_policy/_vendor"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "B"]

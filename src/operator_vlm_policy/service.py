@@ -38,7 +38,7 @@ class InferenceService:
 
     def capabilities(self):
         return {
-            "component": "adapter-vlm-policy",
+            "component": "operator-vlm-policy",
             "version": "0.1.2",
             "operations": ["infer", "capabilities"],
             "context_modes": ["stateless", "task"],

@@ -36,7 +36,7 @@ Transitive dependencies and native libraries retain their own notices; use
 
 Source: public PyPI distributions [forge-tool 1.0.0](https://pypi.org/project/forge-tool/1.0.0/)
 and [forge-msgs 1.3.0](https://pypi.org/project/forge-msgs/1.3.0/), both Apache-2.0.
-Copied modules live under `src/adapter_vlm_policy/_vendor/`, without shadowing
+Copied modules live under `src/operator_vlm_policy/_vendor/`, without shadowing
 either upstream package:
 
 - `dora_binding.py`: `forge_tool.dora`; imports point to the external core SDK
@@ -59,7 +59,7 @@ provenance and compatibility checks.
 ## Build and audit tools
 
 Hatchling (MIT) builds the source/wheel distributions. Ruff (MIT), Build (MIT),
-pip-audit (Apache-2.0), and detect-secrets (Apache-2.0) are development tools.
+and detect-secrets (Apache-2.0) are development tools.
 uv (Apache-2.0 OR MIT) manages the reproducible environment. They are not
 vendored into this package.
 

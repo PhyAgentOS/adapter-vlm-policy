@@ -3,9 +3,9 @@ import json
 import httpx
 import pytest
 
-from adapter_vlm_policy.backend import CompatibleBackend
-from adapter_vlm_policy.config import ModelRoute, Settings
-from adapter_vlm_policy.errors import ServiceError
+from operator_vlm_policy.backend import CompatibleBackend
+from operator_vlm_policy.config import ModelRoute, Settings
+from operator_vlm_policy.errors import ServiceError
 
 
 @pytest.mark.parametrize(

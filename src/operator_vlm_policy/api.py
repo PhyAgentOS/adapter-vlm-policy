@@ -68,7 +68,7 @@ def create_app(settings: Settings, service: InferenceService | None = None):
         await asyncio.gather(task, return_exceptions=True)
         await inference.close()
 
-    app = FastAPI(title="adapter-vlm-policy", version="0.1.2", lifespan=lifespan)
+    app = FastAPI(title="operator-vlm-policy", version="0.1.2", lifespan=lifespan)
     app.state.service = inference
     app.add_middleware(BodyLimit, limit=settings.max_request_bytes)
 
@@ -103,7 +103,7 @@ def create_app(settings: Settings, service: InferenceService | None = None):
 
     @app.get("/health")
     async def health():
-        return {"status": "ok", "component": "adapter-vlm-policy"}
+        return {"status": "ok", "component": "operator-vlm-policy"}
 
     @app.get("/v1/capabilities")
     async def capabilities(namespace=Depends(identity)):

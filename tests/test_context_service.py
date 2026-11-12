@@ -8,13 +8,13 @@ import httpx
 import pytest
 from PIL import Image
 
-from adapter_vlm_policy.api import create_app
-from adapter_vlm_policy.backend import Completion
-from adapter_vlm_policy.config import ModelRoute, Settings
-from adapter_vlm_policy.errors import ServiceError
-from adapter_vlm_policy.models import InferenceRequest
-from adapter_vlm_policy.service import InferenceService
-from adapter_vlm_policy.store import Store
+from operator_vlm_policy.api import create_app
+from operator_vlm_policy.backend import Completion
+from operator_vlm_policy.config import ModelRoute, Settings
+from operator_vlm_policy.errors import ServiceError
+from operator_vlm_policy.models import InferenceRequest
+from operator_vlm_policy.service import InferenceService
+from operator_vlm_policy.store import Store
 
 
 class Backend:
