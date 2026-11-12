@@ -1,6 +1,10 @@
 English | [简体中文](README_zh.md)
 
-# adapter-vlm-policy
+# operator-vlm-policy
+
+The project is now named `operator-vlm-policy`. Use the `operator-vlm-policy`
+CLI, the `operator_vlm_policy` Python package and `OPERATOR_VLM_*` /
+`OPERATOR_PAOS_CONFIG` environment variables in existing deployments.
 
 An Agent-invoked general LLM/VLM inference service. Supply text, images and a response contract; receive text or validated JSON. Optional task contexts preserve explicitly selected history and immutable image evidence between recognition and later verification.
 
@@ -11,7 +15,7 @@ The inference service runs independently of robot sensor dataflows. It does not 
 | Item | Implementation |
 |---|---|
 | Standalone default | One HTTP inference service; zero Dora Nodes or Forge Endpoints |
-| Production Dora Nodes | One optional `forge-bridge --profile vlm` provider; [implementation](src/adapter_vlm_policy/forge_bridge.py), launched through the same CLI |
+| Production Dora Nodes | One optional `forge-bridge --profile vlm` provider; [implementation](src/operator_vlm_policy/forge_bridge.py), launched through the same CLI |
 | Auxiliary programs | Example simulation provider, offline benchmark, request client and Skill packager; excluded from production Node count |
 | Endpoint | `reasoning.vlm`, supplied by the optional VLM bridge |
 | Operations | Two: `capabilities` Query and `infer` Action; descriptor concurrency four per operation, with inference queue/concurrency capped by service configuration |
@@ -29,7 +33,7 @@ The example [Gateway configuration](examples/mujoco_skill/profiles/mujoco/gatewa
 | `sim.prepare` | `sim.tabletop / prepare` (Action) | Example simulator bridge |
 | `sim.execute` | `sim.tabletop / execute` (Action) | Example simulator bridge |
 
-These Tool IDs are example bindings, not additional Endpoints. The [request types](src/adapter_vlm_policy/models.py) use `vlm.infer.request.v1`; results use `vlm.infer.result.v1`. Forge wire compatibility follows the pinned public SDK's `TOOL_ENDPOINT_PROTOCOL`. No prebuilt Node or Gateway binary is distributed here.
+These Tool IDs are example bindings, not additional Endpoints. The [request types](src/operator_vlm_policy/models.py) use `vlm.infer.request.v1`; results use `vlm.infer.result.v1`. Forge wire compatibility follows the pinned public SDK's `TOOL_ENDPOINT_PROTOCOL`. No prebuilt Node or Gateway binary is distributed here.
 
 ## Install and run
 
@@ -42,7 +46,7 @@ cp config.example.yaml config.local.yaml
 export VLM_API_BASE=https://your-provider.example/v1
 export VLM_MODEL=your-vision-capable-model
 # Supply VLM_API_KEY through your local environment/credential manager.
-.venv/bin/adapter-vlm-policy serve --config config.local.yaml
+.venv/bin/operator-vlm-policy serve --config config.local.yaml
 ```
 
 Alternatively configure `provider_file: ~/.llm_config` in a model route. The service reads simple `base_url`, `api_key`, `model_name` and `model_effort` assignments as data, without executing the file. Model and effort selection use explicit route settings, then `VLM_MODEL` / `VLM_REASONING_EFFORT`, then provider-file values. Unset environment placeholders fall back to that file. Standard file aliases `model` and `reasoning_effort` are also supported. Effort is sent as `reasoning_effort` without silently dropping unsupported values or changing models. Capabilities, inference snapshots and successful result provenance expose the effective effort. If the provider file holds a site root rather than an API root, set `api_prefix: v1`. Existing PAOS JSON provider configuration can be imported through `paos_config`; credentials are not copied into reports or capabilities.
@@ -77,7 +81,7 @@ Agent-facing Tools are `vlm.infer` and `vlm.capabilities`. Status/cancellation/c
 Save a request to `request.json`, then call:
 
 ```bash
-.venv/bin/adapter-vlm-policy infer request.json --url http://127.0.0.1:19120
+.venv/bin/operator-vlm-policy infer request.json --url http://127.0.0.1:19120
 ```
 
 Image message blocks:
@@ -121,8 +125,8 @@ The demo has Gateway, an inference control bridge and a separate simulation cont
 Before starting, set:
 
 ```bash
-export ADAPTER_VLM_PYTHON=/absolute/project/.venv/bin/python
-export ADAPTER_VLM_WORKSPACE=/absolute/local/demo-output
+export OPERATOR_VLM_PYTHON=/absolute/project/.venv/bin/python
+export OPERATOR_VLM_WORKSPACE=/absolute/local/demo-output
 export GATEWAY_BINARY=/absolute/path/to/compatible/gateway
 # This profile reads base_url, api_key, model_name and model_effort from ~/.llm_config.
 paos skill install dist/vlm-mujoco-demo-0.1.2.tar.gz --local --yes
@@ -133,13 +137,13 @@ paos skill stop vlm-mujoco-demo
 
 The demo launcher clears inherited VLM model/effort environment overrides, preventing a shared Dora daemon's stale values from replacing provider-file settings. For a deliberate demo override, edit the explicit model/reasoning_effort route settings in its service YAML. The standalone service keeps the precedence described above.
 
-Use an isolated PAOS instance when another robot runtime is already active. `scripts/isolated_paos.py` uses the official configuration-path mechanism; set ADAPTER_PAOS_CONFIG to a separate configuration file, then run the same `skill ...` commands with the PAOS interpreter. It does not stop the shared Dora coordinator or unrelated flows.
+Use an isolated PAOS instance when another robot runtime is already active. `scripts/isolated_paos.py` uses the official configuration-path mechanism; set OPERATOR_PAOS_CONFIG to a separate configuration file, then run the same `skill ...` commands with the PAOS interpreter. It does not stop the shared Dora coordinator or unrelated flows.
 
 ## Validation
 
 ```bash
 .venv/bin/python -m pytest -q --durations=10
-MUJOCO_GL=egl .venv/bin/python -m adapter_vlm_policy.benchmark \
+MUJOCO_GL=egl .venv/bin/python -m operator_vlm_policy.benchmark \
   --config config.local.yaml --output reports/my-run
 # After actual PAOS Skill startup:
 .venv/bin/python scripts/gateway_acceptance.py --output reports/my-gateway-run

@@ -54,7 +54,7 @@ def run(
         spawn_command = [
             sys.executable,
             "-m",
-            "adapter_vlm_policy.cli",
+            "operator_vlm_policy.cli",
             "serve",
             "--config",
             service_config,
@@ -305,7 +305,7 @@ def run(
                 await http_error(response)
                 return ToolControlResponse(command="cancel", status="accepted")
 
-        instance = "adapter-vlm-policy-" + str(uuid.uuid4())
+        instance = "operator-vlm-policy-" + str(uuid.uuid4())
         handler = ToolEndpointHandler(
             descriptor,
             endpoint_instance_id=instance,

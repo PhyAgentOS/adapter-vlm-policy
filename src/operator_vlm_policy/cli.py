@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="adapter-vlm-policy")
+    parser = argparse.ArgumentParser(prog="operator-vlm-policy")
     subs = parser.add_subparsers(dest="command", required=True)
     serve = subs.add_parser("serve", help="Run the independent Agent-invoked service")
     serve.add_argument("--config", required=True)

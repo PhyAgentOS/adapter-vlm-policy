@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Rename the repository, distribution, Python package, CLI and example
+  environment variables to operator-vlm-policy / operator_vlm_policy / OPERATOR_*.
+- Remove the dependency-audit CI job and its pip-audit development dependency;
+  retain tests, publication checks and secret scanning.
+
 ## 0.1.2
 
 - Prepare the first audited GitHub source snapshot under Apache-2.0, with

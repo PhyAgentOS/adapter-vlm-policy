@@ -1,7 +1,7 @@
 # Open-source release audit
 
 - Date: 2026-11-10
-- Repository: `PhyAgentOS/adapter-vlm-policy`
+- Repository: `PhyAgentOS/operator-vlm-policy`
 - Source version: 0.1.2
 - Scope: source/wheel packages and the source-only example Skill; no model
   weights, recorded media, Gateway binary or hardware controller is bundled.
@@ -70,7 +70,11 @@ Executed readiness results:
 - Source distribution, wheel and deterministic source-only Skill built; all
   three archive contents passed the private-data/license checks.
 
-Public CI is configured to repeat these checks without model credentials.
+The verification results above describe the initial audited source snapshot.
+Current public CI repeats tests, lint, compilation, CLI, publication, secret
+and packaging checks without model credentials. The dependency-audit job and
+its pip-audit development dependency have been removed; known-advisory scans
+are not part of the current CI.
 Historical real-model/PAOS evidence in `docs/VALIDATION.md` is explicitly
 separate from public automated tests.
 

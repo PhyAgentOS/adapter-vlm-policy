@@ -10,11 +10,11 @@ from forge_tool import (  # noqa: E402 -- optional SDK must be available first
     make_registration_envelope,
 )
 
-from adapter_vlm_policy._vendor.dora_binding import (  # noqa: E402
+from operator_vlm_policy._vendor.dora_binding import (  # noqa: E402
     tool_envelope_to_message,
     tool_message_to_envelope,
 )
-from adapter_vlm_policy._vendor.tool_message import (  # noqa: E402
+from operator_vlm_policy._vendor.tool_message import (  # noqa: E402
     ToolMessage,
     ToolMessageSizeError,
 )

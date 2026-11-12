@@ -3,12 +3,12 @@ from pathlib import Path
 
 import pytest
 
-from adapter_vlm_policy.cli import main
+from operator_vlm_policy.cli import main
 
 
 def test_bridge_explains_python_requirement_before_importing_optional_sdk(monkeypatch, capsys):
     monkeypatch.setattr(sys, "version_info", (3, 11, 0))
-    monkeypatch.setattr(sys, "argv", ["adapter-vlm-policy", "forge-bridge"])
+    monkeypatch.setattr(sys, "argv", ["operator-vlm-policy", "forge-bridge"])
     with pytest.raises(SystemExit) as exc:
         main()
     assert exc.value.code == 2

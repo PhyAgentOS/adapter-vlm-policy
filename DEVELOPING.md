@@ -63,7 +63,7 @@ Model tests include action-not-executed and task-only-lifted negative controls. 
 .venv/bin/python -m pytest -q --durations=10 --junitxml=reports/unit-tests.xml
 .venv/bin/python -m compileall -q src examples scripts tests
 .venv/bin/python scripts/build_demo_skill.py
-MUJOCO_GL=egl .venv/bin/python -m adapter_vlm_policy.benchmark \
+MUJOCO_GL=egl .venv/bin/python -m operator_vlm_policy.benchmark \
   --config config.local.yaml --output reports/acceptance
 .venv/bin/python scripts/gateway_acceptance.py --output reports/gateway
 ```

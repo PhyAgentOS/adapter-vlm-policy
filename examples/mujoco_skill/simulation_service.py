@@ -1,4 +1,4 @@
-"""MuJoCo test executor; separate from adapter-vlm-policy inference."""
+"""MuJoCo test executor; separate from operator-vlm-policy inference."""
 
 import argparse
 import asyncio
@@ -10,9 +10,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from adapter_vlm_policy.errors import ServiceError
-from adapter_vlm_policy.mujoco_scene import PRIMITIVES, TabletopScene
-from adapter_vlm_policy.store import digest
+from operator_vlm_policy.errors import ServiceError
+from operator_vlm_policy.mujoco_scene import PRIMITIVES, TabletopScene
+from operator_vlm_policy.store import digest
 
 
 def main():

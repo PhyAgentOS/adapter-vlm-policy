@@ -13,7 +13,7 @@ tools:
   response_output_id: tool_response
   specs:
   - tool_id: vlm.capabilities
-    implementation_id: adapter-vlm-demo
+    implementation_id: operator-vlm-demo
     endpoint_id: reasoning.vlm
     operation: capabilities
     semantics: query
@@ -28,7 +28,7 @@ tools:
       additionalProperties: true
     readiness: []
   - tool_id: vlm.infer
-    implementation_id: adapter-vlm-demo
+    implementation_id: operator-vlm-demo
     endpoint_id: reasoning.vlm
     operation: infer
     semantics: action
@@ -55,7 +55,7 @@ tools:
       additionalProperties: true
     readiness: []
   - tool_id: sim.observe
-    implementation_id: adapter-vlm-demo
+    implementation_id: operator-vlm-demo
     endpoint_id: sim.tabletop
     operation: observe
     semantics: query
@@ -70,7 +70,7 @@ tools:
       additionalProperties: true
     readiness: []
   - tool_id: sim.prepare
-    implementation_id: adapter-vlm-demo
+    implementation_id: operator-vlm-demo
     endpoint_id: sim.tabletop
     operation: prepare
     semantics: action
@@ -97,7 +97,7 @@ tools:
       additionalProperties: true
     readiness: []
   - tool_id: sim.execute
-    implementation_id: adapter-vlm-demo
+    implementation_id: operator-vlm-demo
     endpoint_id: sim.tabletop
     operation: execute
     semantics: action
